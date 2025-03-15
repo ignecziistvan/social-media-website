@@ -1,0 +1,29 @@
+<div class="flex items-center justify-center min-h-screen">
+  <div class="bg-white dark:bg-gray-800 p-8 h-screen md:h-fit pt-16 md:rounded-lg shadow-md w-96 md:my-20">
+    <h2 class="text-2xl font-semibold text-gray-700 dark:text-white text-center">Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-6">
+      <app-text-input 
+        [formControl]="$any(loginForm.controls['userNameOrEmail'])"
+        label="Username or Email"
+      />
+
+      <app-text-input 
+        [formControl]="$any(loginForm.controls['password'])"
+        type="password"
+        label="Password"
+      />
+
+      @if (error) { <p class="mt-4 text-red-500 text-sm">{{error}}</p> }
+
+      <button type="submit" [disabled]="loginForm.invalid"
+        class="w-full mt-2 px-4 py-2 text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg cursor-pointer">
+        Login
+      </button>
+    </form>
+
+    <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
+      Don't have an account? <a [routerLink]="'/register'" class="text-indigo-500 hover:underline">Register</a>
+    </p>
+  </div>
+</div>
