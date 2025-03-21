@@ -13,7 +13,7 @@ export class ThemeService {
   }
 
   toggleTheme(): void {
-    const newTheme = this.themeSubject.value === 'dark' ? 'light' : 'dark';
+    const newTheme = this.themeSubject.value === 'night' ? 'light' : 'night';
     this.setTheme(newTheme);
   }
 
@@ -28,10 +28,6 @@ export class ThemeService {
   }
 
   private applyTheme(theme: string): void {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.setAttribute('data-theme', theme);
   }
 }

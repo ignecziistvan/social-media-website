@@ -9,7 +9,7 @@ import { Account } from '../_models/user';
 })
 export class AccountService {
   private http = inject(HttpClient);
-  baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl;
   currentUser = signal<Account | null>(null);
   roles = computed(() => {
     const user = this.currentUser();
@@ -18,6 +18,12 @@ export class AccountService {
     }
     return null;
   })
+
+  constructor () {
+    const storedUser = localStorage.getItem('user') ?? '';
+    const user : Account | null = storedUser !== '' ? JSON.parse(storedUser) : null;
+    if (user !== null) this.currentUser.set(user);
+  }
 
   login(model: any) {
     return this.http.post<Account>(this.baseUrl + 'auth/login', model).pipe(

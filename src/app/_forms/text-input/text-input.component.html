@@ -1,15 +1,15 @@
 <div class="mb-4">
-  <label class="block text-gray-700 dark:text-gray-300">{{label()}}</label>
+  <label class="block">{{label()}}</label>
   <input 
     [class.is-invalid]="control.touched && control.invalid"
     [type]="type()"
     [formControl]="control"
     placeholder={{label()}}
-    class="w-full px-4 py-2 mt-2 border rounded-lg focus:ring focus:ring-indigo-200 dark:bg-gray-700 dark:text-white"
+    class="mt-2 input rounded-lg"
   />
-  <p *ngIf="control.touched && control.hasError('required')" class="text-red-500 text-sm">{{label()}} field is required</p>
-  <p *ngIf="control.touched && control.hasError('email')" class="text-red-500 text-sm">Invalid email format</p>
-  <p *ngIf="control.touched && control.hasError('minlength')" class="text-red-500 text-sm">{{label()}} must be at least {{ control.errors?.['minlength'].requiredLength }} characters</p>
-  <p *ngIf="control.touched && control.hasError('maxlength')" class="text-red-500 text-sm">{{label()}} must be at most {{ control.errors?.['maxlength'].requiredLength }} characters</p>
-  <p *ngIf="control.touched && control.hasError('isMatching')" class="text-red-500 text-sm">Passwords do not match</p>
+  <p *ngIf="control.touched && control.hasError('required')" class="text-error text-sm">{{label()}} field is required</p>
+  <p *ngIf="control.touched && control.hasError('email')" class="text-error text-sm">Invalid email format</p>
+  <p *ngIf="control.touched && control.hasError('minlength')" class="text-error text-sm">{{label()}} must be at least {{ control.errors?.['minlength'].requiredLength }} characters</p>
+  <p *ngIf="control.touched && control.hasError('maxlength')" class="text-error text-sm">{{label()}} must be at most {{ control.errors?.['maxlength'].requiredLength }} characters</p>
+  <p *ngIf="control.touched && control.hasError('isMatching')" class="text-error text-sm">Passwords do not match</p>
 </div>

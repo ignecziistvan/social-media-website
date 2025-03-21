@@ -1,0 +1,22 @@
+<div class="flex flex-col items-center">
+  <form class="flex w-full justify-center items-end gap-4 m-8" (submit)="createPost()">
+    <textarea 
+      name="new-post" 
+      id="new-post" 
+      placeholder="What's on your mind?"
+      [(ngModel)]="newPostText"
+      class="textarea rounded-md"
+    ></textarea>
+    <button type="submit" class="btn">Submit</button>
+  </form>
+
+  <div class="grid md:w-2/3">
+    @for (post of latestPosts; track post.id) {
+      <app-post *ngIf="post" [post]="post" />
+    }
+  </div>
+
+  <div>
+    <button (click)="loadNextPage()" class="btn btn-secondary">More...</button>
+  </div>
+</div>
