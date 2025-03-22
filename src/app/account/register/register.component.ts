@@ -4,10 +4,11 @@ import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../_services/account.service';
 import { CommonModule } from '@angular/common';
 import { TextInputComponent } from '../../_forms/text-input/text-input.component';
+import { DateInputComponent } from '../../_forms/date-input/date-input.component';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TextInputComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TextInputComponent, DateInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -50,7 +51,17 @@ export class RegisterComponent implements OnInit {
 
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
-      return control.value === control.parent?.get(matchTo)?.value ? null : { isMatching: true }
+      const parent = control.parent;
+      if (!parent) return null;
+  
+      const password = parent.get(matchTo)?.value;
+      const confirmPassword = control.value;
+  
+      if (!password || !confirmPassword) {
+        return null;
+      }
+      
+      return password === confirmPassword ? null : { isMatching: true };
     };
   }
 

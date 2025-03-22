@@ -1,0 +1,65 @@
+<div class="flex flex-col items-center h-full my-2">
+  <section class="flex bg-base-300 w-2/3 p-8 rounded-2xl">
+    <div class="avatar">
+      <div class="w-50 rounded-full">
+        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+      </div>
+    </div>
+    <div class="flex justify-center items-center gap-2 h-fit pl-12">
+      <h1 class="font-bold text-3xl">{{user.firstname + ' ' + user.lastname}}</h1>
+      <h3 class="text-2xl">({{user.userName}})</h3>
+    </div>
+  </section>
+  <section class="w-2/3 bg-base-300 rounded-md mt-8 p-4">
+    <form [formGroup]="editForm" (ngSubmit)="submitForm()">
+      <app-text-input 
+        [formControl]="$any(editForm.controls['userName'])"
+        label="Username"
+      />
+
+      <app-text-input 
+        [formControl]="$any(editForm.controls['email'])"
+        type="email"
+        label="Email"
+      />
+
+      <app-date-input
+        [formControl]="$any(editForm.controls['dateOfBirth'])"
+        label="Date of Birth"
+      ></app-date-input>
+
+      <app-text-input 
+        [formControl]="$any(editForm.controls['firstname'])"
+        label="First name"
+      />
+
+      <app-text-input 
+        [formControl]="$any(editForm.controls['lastname'])"
+        label="Last name"
+      />
+
+      <app-text-input 
+        [formControl]="$any(editForm.controls['password'])"
+        type="password"
+        label="Password"
+      />
+
+      <app-text-input 
+        [formControl]="$any(editForm.controls['confirmPassword'])"
+        type="password"
+        label="Confirm password"
+      />
+
+      <app-text-input 
+        [formControl]="$any(editForm.controls['oldPassword'])"
+        type="password"
+        label="Old Password"
+      />
+
+      @if (error) { <p class="mt-4 text-error text-sm">{{error}}</p> }
+      @if (success) { <p class="mt-4 text-success text-sm">{{success}}</p> }
+
+      <button class="btn btn-primary" type="submit" [disabled]="editForm.invalid">Save changes</button>
+    </form>
+  </section>
+</div>

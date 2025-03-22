@@ -1,0 +1,22 @@
+<div class="flex flex-col items-center h-full my-2">
+  <section class="flex bg-base-300 w-2/3 p-8 rounded-2xl">
+    <div class="avatar">
+      <div class="w-50 rounded-full">
+        <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+      </div>
+    </div>
+    <div class="flex justify-center items-center gap-2 h-fit pl-12">
+      <h1 class="font-bold text-3xl">{{user?.firstname + ' ' + user?.lastname}}</h1>
+      <h3 class="text-2xl">({{user?.userName}})</h3>
+    </div>
+    @if (user?.userName === accountService.currentUser()?.userName) {
+      <a class="btn btn-primary ml-auto" routerLink="/account/edit">Edit profile</a>
+    }
+  </section>
+  <section class="w-2/3 bg-base-300 rounded-md mt-8 p-4">
+    @for (post of posts; track post.id) {
+      <app-post [post]="post" />
+    }
+  </section>
+  <button (click)="loadNextPageOfPosts()" class="btn btn-accent my-4">More...</button>
+</div>

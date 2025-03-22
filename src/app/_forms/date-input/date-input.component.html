@@ -1,0 +1,11 @@
+<div class="mb-4">
+  <label class="block">{{label()}}</label>
+  <input 
+    [class.is-invalid]="control.touched && control.invalid"
+    type="date"
+    [formControl]="control"
+    placeholder={{label()}}
+    class="mt-2 input rounded-lg"
+  />
+  <p *ngIf="control.touched && control.hasError('required')" class="text-error text-sm">{{label()}} field is required</p>
+</div>
