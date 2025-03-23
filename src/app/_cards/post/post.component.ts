@@ -1,4 +1,4 @@
-import { Component, inject, Input, input, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, Input, input, OnInit, signal, ViewChild } from '@angular/core';
 import { Post } from '../../_models/post';
 import { CommentComponent } from "../comment/comment.component";
 import { AccountService } from '../../_services/account.service';
@@ -6,10 +6,12 @@ import { LikeService } from '../../_services/like.service';
 import { FormsModule } from '@angular/forms';
 import { CommentService } from '../../_services/comment.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { LikesModalComponent } from '../../_modals/likes-modal/likes-modal.component';
 
 @Component({
   selector: 'app-post',
-  imports: [CommonModule, CommentComponent, FormsModule],
+  imports: [CommonModule, CommentComponent, FormsModule, RouterLink, LikesModalComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })
@@ -17,6 +19,8 @@ export class PostComponent implements OnInit {
   accountService = inject(AccountService);
   likeService = inject(LikeService);
   commentService = inject(CommentService);
+  defaultAvatar = 'user.png';
+  likesModal: LikesModalComponent | undefined;
 
   @Input() post: Post = {} as Post;
   isLiked = signal<boolean>(false);
@@ -53,6 +57,13 @@ export class PostComponent implements OnInit {
     });
   }
 
+  triggerLikesModal() {
+    console.log('ok');
+    
+    const modal = document.querySelector('dialog') as HTMLDialogElement;
+    if (modal) modal.showModal();
+  }
+
   createComment() {
     this.commentService.createComment(this.post.id, this.newCommentText).subscribe({
       next: response => {
@@ -67,6 +78,8 @@ export class PostComponent implements OnInit {
   likePost() {
     this.likeService.likePost(this.post.id).subscribe({
       next: response => {
+        console.log(response);
+        
         this.post.likes.unshift(response);
         this.isLiked.set(true);
       },

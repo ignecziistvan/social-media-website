@@ -1,9 +1,9 @@
 <div class="chat chat-start my-4">
   <div class="chat-image avatar">
-    <div class="w-10 rounded-full">
+    <div class="w-12 rounded-full">
       <img
-        alt="Tailwind CSS chat bubble component"
-        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+        alt="{{comment.userName}}"
+        src="{{comment.userMainPhoto?.url ?? defaultAvatar}}" />
     </div>
   </div>
   <div class="chat-header gap-2 items-center">

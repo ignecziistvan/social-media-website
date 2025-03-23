@@ -10,6 +10,7 @@ import { Comment } from '../../_models/comment';
 })
 export class CommentComponent {
   @Input() comment: Comment = {} as Comment;
+  defaultAvatar = 'user.png';
 
   convertDateFormat(date?: Date) {
     if (!date) return;

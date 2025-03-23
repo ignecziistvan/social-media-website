@@ -3,7 +3,6 @@ import { AccountService } from '../../_services/account.service';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { TextInputComponent } from "../../_forms/text-input/text-input.component";
 import { DateInputComponent } from '../../_forms/date-input/date-input.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,9 +12,9 @@ import { Router } from '@angular/router';
 })
 export class EditProfileComponent {
   private accountService = inject(AccountService);
-  private router = inject(Router);
   private fb = inject(FormBuilder);
   user = this.accountService.currentUser()!;
+  defaultAvatar = 'user.png';
 
   error: string | undefined;
   success: string | undefined;
@@ -66,6 +65,9 @@ export class EditProfileComponent {
     };
   }
   
+  triggerFileInput() {
+    //TODO
+  }
 
   private prepareFormForSubmit(editForm: Partial<{
     userName: string | null;

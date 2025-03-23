@@ -1,0 +1,20 @@
+<dialog #likesModal class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">People who liked this post</h3>
+    <ul class="py-4 space-y-4">
+      @for (like of likes(); track like.id) {
+        <li class="flex items-center gap-4">
+          <div class="avatar">
+            <div class="ring-primary ring-offset-base-100 w-10 rounded-full ring ring-offset-2">
+              <img src="{{like.userMainPhoto?.url ?? defaultAvatar}}" />
+            </div>
+          </div>
+          <p>{{like.userName}}</p>
+        </li>
+      }
+    </ul>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>Close</button>
+  </form>
+</dialog>

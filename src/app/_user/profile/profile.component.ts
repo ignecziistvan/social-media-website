@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
   private userService = inject(UserService);
   private postsService = inject(PostsService);
 
+  defaultAvatar = 'user.png';
+
   user: User|null = null;
   posts: Post[] = [];
 

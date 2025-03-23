@@ -29,8 +29,8 @@ export class PostsService {
     return this.http.get<Post[]>(this.baseUrl + 'post/user/' + userName + '?' + params);
   }
 
-  createPost(text: string) {
-    return this.http.post<Post>(this.baseUrl + 'post', {text});
+  createPost(formData: FormData) {
+    return this.http.post<Post>(this.baseUrl + 'post', formData);
   }
 
   deletePost(postId: number) {

@@ -41,7 +41,7 @@
         label="Confirm password"
       />
 
-      @if (error) { <p class="mt-4 text-red-500 text-sm">{{error}}</p> }
+      @if (error) { <p class="mt-4 text-error text-sm">{{error}}</p> }
 
       <button type="submit" [disabled]="registerForm.invalid"
         class="w-full mt-2 px-4 py-2 text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg cursor-pointer">
