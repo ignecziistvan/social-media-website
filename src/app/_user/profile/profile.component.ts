@@ -6,10 +6,11 @@ import { Post } from '../../_models/post';
 import { PostComponent } from "../../_cards/post/post.component";
 import { PostsService } from '../../_services/posts.service';
 import { AccountService } from '../../_services/account.service';
+import { PhotosModalComponent } from "../../_modals/photos-modal/photos-modal.component";
 
 @Component({
   selector: 'app-profile',
-  imports: [PostComponent, RouterLink],
+  imports: [PostComponent, RouterLink, PhotosModalComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -46,6 +47,11 @@ export class ProfileComponent implements OnInit {
         }
       });
     });
+  }
+
+  triggerPhotosModal() {
+    const modal = document.querySelector('dialog') as HTMLDialogElement;
+    if (modal) modal.showModal();
   }
 
   loadNextPageOfPosts() {

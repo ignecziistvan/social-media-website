@@ -1,7 +1,10 @@
 <div class="flex flex-col items-center h-full my-2">
+
+  <app-photos-modal [photos]="user!.photos" />
+
   <section class="flex bg-base-300 w-2/3 p-8 rounded-2xl">
-    <div class="avatar">
-      <div class="w-50 rounded-full">
+    <div class="avatar" (click)="triggerPhotosModal()">
+      <div class="w-50 rounded-full ring-primary ring-offset-base-100 ring ring-offset-3">
         <img src="{{user?.mainPhoto?.url ?? defaultAvatar}}" />
       </div>
     </div>

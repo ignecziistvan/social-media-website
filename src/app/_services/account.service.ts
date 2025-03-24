@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Account } from '../_models/user';
+import { Photo } from '../_models/photo';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,21 @@ export class AccountService {
   updateProfile(model: any) {
     return this.http.put<Account>(this.baseUrl + 'user', model).pipe(
       map(user => user ? this.setCurrentUser(user) : null)
+    );
+  }
+
+  setNewAvatar(form: FormData) {
+    return this.http.post<Photo>(this.baseUrl + 'user/upload-photo', form).pipe(
+      map(photo => {
+        console.log(photo);
+        
+        this.currentUser()!.mainPhoto = photo;
+        this.currentUser()!.photos.unshift(photo);
+
+        console.log(this.currentUser());
+        
+        localStorage.setItem('user', JSON.stringify(this.currentUser()));
+      })
     );
   }
 

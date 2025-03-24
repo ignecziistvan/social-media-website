@@ -1,6 +1,6 @@
 import { Component, ElementRef, inject, Input, input, OnInit, signal, ViewChild } from '@angular/core';
 import { Post } from '../../_models/post';
-import { CommentComponent } from "../comment/comment.component";
+import { CommentsComponent } from "../comments/comments.component";
 import { AccountService } from '../../_services/account.service';
 import { LikeService } from '../../_services/like.service';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { LikesModalComponent } from '../../_modals/likes-modal/likes-modal.compo
 
 @Component({
   selector: 'app-post',
-  imports: [CommonModule, CommentComponent, FormsModule, RouterLink, LikesModalComponent],
+  imports: [CommonModule, CommentsComponent, FormsModule, RouterLink, LikesModalComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })
@@ -58,8 +58,6 @@ export class PostComponent implements OnInit {
   }
 
   triggerLikesModal() {
-    console.log('ok');
-    
     const modal = document.querySelector('dialog') as HTMLDialogElement;
     if (modal) modal.showModal();
   }

@@ -1,0 +1,14 @@
+<dialog #photosModal class="modal">
+  <form method="dialog" class="modal-backdrop">
+    <button>Close</button>
+  </form>
+  <div class="modal-box max-w-5xl">
+    <div class="py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      @for (photo of photos(); track photo.id) {
+        <div class="rounded-lg overflow-hidden shadow-md">
+          <img src="{{photo.url}}" class="w-full h-auto object-cover" />
+        </div>
+      }
+    </div>
+  </div>
+</dialog>

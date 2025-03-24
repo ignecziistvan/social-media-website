@@ -3,10 +3,11 @@ import { AccountService } from '../../_services/account.service';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { TextInputComponent } from "../../_forms/text-input/text-input.component";
 import { DateInputComponent } from '../../_forms/date-input/date-input.component';
+import { PhotosModalComponent } from '../../_modals/photos-modal/photos-modal.component';
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [ReactiveFormsModule, TextInputComponent, DateInputComponent],
+  imports: [ReactiveFormsModule, TextInputComponent, DateInputComponent, PhotosModalComponent],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
@@ -16,9 +17,14 @@ export class EditProfileComponent {
   user = this.accountService.currentUser()!;
   defaultAvatar = 'user.png';
 
+  avatarSuccess: string | undefined;
+  avatarError: string | undefined;
   error: string | undefined;
   success: string | undefined;
   maxDate = new Date();
+
+  selectedNewAvatar?: { file: File, previewUrl: string } = undefined;
+  isSubmitting: boolean = false;
 
   editForm = this.fb.group({
     userName: [this.user.userName],
@@ -31,20 +37,34 @@ export class EditProfileComponent {
     oldPassword: ['', [Validators.minLength(6), Validators.maxLength(32)]]
   });
 
+  triggerPhotosModal() {
+    if (this.selectedNewAvatar || this.isSubmitting) return;
+    const modal = document.querySelector('dialog') as HTMLDialogElement;
+    if (modal) modal.showModal();
+  }
+
   submitForm() {
+    const formData = this.editForm.value;
+    if (formData.password !== formData.confirmPassword) {
+      this.error = 'Passwords do not match';
+      return;
+    }
+
     if (this.editForm.invalid) return;
 
-    const formData = this.editForm.value;
-    if (formData.password !== formData.confirmPassword) return;
+    this.isSubmitting = true;
 
     this.accountService.updateProfile(this.prepareFormForSubmit(formData)).subscribe({
       next: () => {
         this.success = 'Profile updated successfully';
         this.error = undefined;
+        this.isSubmitting = false;
+        this.user = this.accountService.currentUser()!;
       },
       error: e => {
         this.success = undefined;
         this.error = typeof(e.error) === 'string' ? e.error : 'Failed to update profile';
+        this.isSubmitting = false;
       }
     });
   }
@@ -66,7 +86,49 @@ export class EditProfileComponent {
   }
   
   triggerFileInput() {
-    //TODO
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+
+    const files = Array.from(input.files);
+
+    for (const file of files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.selectedNewAvatar = { file, previewUrl: reader.result as string };
+      };
+    }
+  }
+
+  changeAvatar() {
+    if (!this.selectedNewAvatar?.file) return;
+
+    this.isSubmitting = true;
+
+    const form = new FormData();
+    form.append('file', this.selectedNewAvatar.file);
+
+    this.accountService.setNewAvatar(form).subscribe({
+      next: () => {
+        this.selectedNewAvatar = undefined;
+        this.isSubmitting = false;
+        this.avatarSuccess = 'Avatar has been changed';
+      },
+      error: e => {
+        this.selectedNewAvatar = undefined;
+        this.isSubmitting = false;
+        this.avatarError = 'Failed to change avatar';
+      }
+    });
+  }
+
+  cancelNewAvatar() {
+    this.selectedNewAvatar = undefined;
   }
 
   private prepareFormForSubmit(editForm: Partial<{

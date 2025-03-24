@@ -1,0 +1,12 @@
+<ul class="list bg-base-100 rounded-box shadow-md w-full">
+  @for (comment of comments; track comment.id) {
+    <li class="list-row">
+      <div><img class="size-10 rounded-box" src="{{comment.userMainPhoto?.url ?? defaultAvatar}}"/></div>
+      <div>
+        <p class="text-md">{{comment.userName}}</p>
+        <time class="text-xs opacity-50">{{convertDateFormat(comment.created)}}</time>
+      </div>
+      <p class="list-col-wrap text-sm">{{comment.text}}</p>
+    </li>
+  }
+</ul>

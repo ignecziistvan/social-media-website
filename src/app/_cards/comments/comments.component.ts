@@ -1,15 +1,15 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TimeagoModule } from 'ngx-timeago';
 import { Comment } from '../../_models/comment';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'app-comments',
   imports: [TimeagoModule],
-  templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  templateUrl: './comments.component.html',
+  styleUrl: './comments.component.css'
 })
-export class CommentComponent {
-  @Input() comment: Comment = {} as Comment;
+export class CommentsComponent {
+  @Input() comments: Comment[] = [];
   defaultAvatar = 'user.png';
 
   convertDateFormat(date?: Date) {

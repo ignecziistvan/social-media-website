@@ -1,15 +1,47 @@
 <div class="flex flex-col items-center h-full my-2">
+
+  <app-photos-modal [photos]="user.photos" />
+
   <section class="flex bg-base-300 w-2/3 p-8 rounded-2xl">
-    <div class="avatar">
-      <div class="w-50 rounded-full">
-        <img src="{{user.mainPhoto?.url ?? defaultAvatar}}" />
+    <div (click)="triggerPhotosModal()" class="avatar">
+      <div class="w-50 rounded-full ring-primary ring-offset-base-100 ring ring-offset-3">
+        <img src="{{selectedNewAvatar?.previewUrl ?? user.mainPhoto?.url ?? defaultAvatar}}" />
       </div>
     </div>
-    <div class="flex justify-center items-center gap-2 h-fit pl-12">
-      <h1 class="font-bold text-3xl">{{user.firstname + ' ' + user.lastname}}</h1>
-      <h3 class="text-2xl">({{user.userName}})</h3>
+    <div class="flex flex-col mx-8 gap-4">
+      <div class="flex items-center gap-2 h-fit">
+        <h1 class="font-bold text-3xl">{{user.firstname + ' ' + user.lastname}}</h1>
+        <h3 class="text-2xl">({{user.userName}})</h3>
+      </div>
+
+      @if (!selectedNewAvatar) {
+        <button [disabled]="isSubmitting" class="btn btn-primary w-fit" (click)="triggerFileInput()">Change Photo</button>
+      }
+
+      @if (selectedNewAvatar) {
+        <div class="flex gap-2">
+          <button [disabled]="isSubmitting" (click)="changeAvatar()" class="btn btn-primary w-fit">
+            Set as new avatar
+            @if (isSubmitting) {<span class="loading loading-spinner loading-sm"></span>}
+          </button>
+          <button [disabled]="isSubmitting" (click)="cancelNewAvatar()" class="btn btn-secondary w-fit">Cancel</button>
+        </div>
+      }
+
+      <form hidden>
+        <input id="fileInput"
+          hidden
+          type="file" 
+          (change)="onFileSelected($event)" 
+          accept="image/*"
+          [value]="selectedNewAvatar?.file"
+        />
+      </form>
+
+      @if (avatarSuccess) {<p class="mt-4 text-success text-sm">{{avatarSuccess}}</p>}
+      @if (avatarError) {<p class="mt-4 text-error text-sm">{{avatarError}}</p>}
+
     </div>
-    <button class="btn btn-primary" (click)="triggerFileInput()">Change Photo</button>
   </section>
   
   <section class="w-2/3 bg-base-300 rounded-md mt-8 p-4">
@@ -61,7 +93,10 @@
       @if (error) { <p class="mt-4 text-error text-sm">{{error}}</p> }
       @if (success) { <p class="mt-4 text-success text-sm">{{success}}</p> }
 
-      <button class="btn btn-primary" type="submit" [disabled]="editForm.invalid">Save changes</button>
+      <button class="btn btn-primary" type="submit" [disabled]="editForm.invalid || isSubmitting">
+        Save changes
+        @if (isSubmitting) {<span class="loading loading-spinner loading-sm"></span>}
+      </button>
     </form>
   </section>
 </div>
